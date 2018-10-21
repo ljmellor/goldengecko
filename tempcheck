@@ -1,0 +1,20 @@
+#!/bin/sh
+
+######################################
+# Script to monitor cpu temperatures #
+# Written by Luke Mellor 28/08/2017. #
+######################################
+
+# Start Variables, alter to suit your environment
+sqluser=<mysqlusername>
+sqlpass=<mysqlpassword>
+sqldb=<sqldb>
+sqltable=<mysqltable>
+# End Variables
+
+temp=$(/usr/bin/sensors | grep 'Physical id 0' | cut -c18-21 | sed '/^$/d')
+sql="INSERT INTO serverInfo.$sqldb (\`temp\`) VALUES('$temp');"
+
+/usr/bin/mysql -u$sqluser -p$sqlpass -e "$sql" $sqltable
+
+exit
