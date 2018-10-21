@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-##########################################
-# Stop/Start running services            #
-# First argument should be stop or start #
-# By Luke Mellor 2018                    #
-##########################################
+###########################################################
+# Batch Stop/Start/Restart/Check running services         #
+# First argument should be stop, start, restart or status #
+# By Luke Mellor 2018                                     #
+###########################################################
 
 # List of services to start or stop (edit as per your own personal requirements, separate with spaces)
 services=(medusa couchpotato headphones sabnzbdplus transmission-daemon mysql nfs-kernel-server smbd)
