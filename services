@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+##########################################
+# Stop/Start running services            #
+# First argument should be stop or start #
+# By Luke Mellor 2018                    #
+##########################################
+
+# List of services to start or stop (edit as per your own personal requirements, separate with spaces)
+services=(medusa couchpotato headphones sabnzbdplus transmission-daemon mysql nfs-kernel-server smbd)
+
+if [ "$1" == "start" ] || [ "$1" == "stop" ] || [ "$1" == "status" ] || [ "$1" == "restart" ] ; then
+
+        if [ "$1" == "status" ] ; then
+                for s in ${services[@]}; do
+                        systemctl $1 --no-pager $s
+                done
+        else
+                for s in ${services[@]}; do
+                        systemctl $1 $s
+                done
+        fi
+
+else
+        echo -e "Unrecognised command $1. You may only use start, stop, restart or status"
+fi
