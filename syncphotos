@@ -1,0 +1,38 @@
+#!/bin/bash
+exec 2>/dev/null
+
+picfold=/export/Pictures/Photos
+dumpfold=/export/Pictures/Dump
+usr="luke"
+perms="777"
+
+for pic in $(find $dumpfold -type f -exec echo -e {} \;);
+do
+        picname=$(basename $pic)
+        date=$(echo $picname | cut  -d'_' -f 2)
+        year=$(date -d "$date" +'%Y')
+        month=$(date -d "$date" +'%m')
+        #echo $picname
+        #echo $date
+        if (($year != 0000))
+        then
+                dir="$picfold/$year/$month"
+                #echo "$dir/$picname"
+                if [ ! -d $dir ];
+                then
+                        echo "$dir does not exist"
+                        mkdir $dir
+                        chown $usr:$usr $dir
+                        chmod $perms $dir
+                        echo "Directory created for $dir"
+                fi
+
+                if [ ! -f $dir/$picname ];
+                then
+                        echo "Backed up $dir/$picname"
+                        cp -u $pic $dir/$picname
+                fi
+        fi
+done
+rm -r $dumpfold
+exit
